@@ -1,73 +1,97 @@
 package View;
 
+import Entities.Aluno;
 import Entities.Turma;
-import Helpers.Etapas;
+import Helpers.*;
 
-import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class InterfaceDeUsuario {
 
+    private ArrayList<Turma> turmasCadastradas = new ArrayList<Turma>();
+    private ArrayList<Aluno> alunosCadatrados = new ArrayList<Aluno>();
+
     public void mostrarMenuPrincipal() {
-        Scanner entrada = new Scanner(System.in);
+        EtapaDeEnsino etapa = new EtapaDeEnsino();
+        ObterIdade obterIdade = new ObterIdade();
+        MenuPrincipal menu = new MenuPrincipal();
+        Scanner scan = new Scanner(System.in);
 
-        System.out.println("1 - Cadastrar Turma");
-        System.out.println("2 - Cadastrar Aluno");
-        System.out.println("3 - ");
-        System.out.println("0 - Sair");
-
-        int opcao = entrada.nextInt();
+        int opcao = menu.MenuDeOpcoes();
 
         while (opcao != 0) {
             switch (opcao) {
                 case 1: // Cadastro de turma
-                    int tipo = -1;
                     System.out.println("Código da turma:");
-                    String codigo = entrada.nextLine();
-                    System.out.println("Defina a Etapa de ensino:");
-                    System.out.println("1 - Infantil");
-                    System.out.println("2 - Fundamental Inicial");
-                    System.out.println("3 - Funadmental Final");
-                    System.out.println("4 - Médio");
-                    tipo = entrada.nextInt();
+                    String codigo = scan.next();
+
+                    int tipo = etapa.Etapas();
 
                     while (tipo < 0 || tipo > 4){
                         System.out.println("Valor inválido, favor digitar o valor correto");
                         System.out.println();
-                        System.out.println("Defina a Etapa de ensino:");
-                        System.out.println("1 - Infantil");
-                        System.out.println("2 - Fundamental Inicial");
-                        System.out.println("3 - Funadmental Final");
-                        System.out.println("4 - Médio");
-                        tipo = entrada.nextInt();
+                        tipo =  etapa.Etapas();
                     }
-
-                    Etapas etapa = Etapas.values()[tipo];
-                    String nomeEtapa = etapa.name();
+                    Etapas etapas = Etapas.values()[tipo];
+                    String nomeEtapa = etapas.name();
 
                     System.out.println("Ano");
-                    int ano = entrada.nextInt();
+                    int ano = scan.nextInt();
+
                     System.out.println("Limite de Vagas");
-                    int vagas = entrada.nextInt();
+                    int vagas = scan.nextInt();
+
                     System.out.println("Numero de Matriculados");
-                    int matriculas = entrada.nextInt();
+                    int matriculas = scan.nextInt();
 
                     Turma turma = new Turma(codigo, nomeEtapa, ano, vagas, matriculas);
-                    System.out.println("Turma Adicionada!");
-                    break;
-                case 2:
-                    break;
+                    turmasCadastradas.add(turma);
 
-                case 0:
-                    System.out.println("Finalizando programa...");
-                    System.exit(0);
+                    System.out.println("Turma criada com sucesso!");
+                    break;
+                case 2: // Cadastro de Aluno
+                    System.out.println("Nome do Aluno:");
+                    String nome = scan.next();
+
+                    System.out.println("CPF do Aluno: (Apenas números)");
+                    String cpf = scan.next();
+
+                    System.out.println("Endereço do Aluno:");
+                    String endereco = scan.next();
+
+                    System.out.println("Data de Nascimento do Aluno: Formato(DD/MM/AAAA)");
+                    String nascimento = scan.next();
+                    int idade = obterIdade.ObterIdade(nascimento);
+
+                    Aluno aluno = new Aluno(nome, cpf, endereco, nascimento, idade);
+                    alunosCadatrados.add(aluno);
+
+                    System.out.println("Aluno cadastrado com sucesso!");
+                    break;
+                case 3: // Cadastrar aluno em uma turma
+                    break;
+                case 4: // Listar alunos em ordem alfabética
+                    Collections.sort(alunosCadatrados, Comparator.comparing(Aluno::getNome));
+                    for (Aluno listaAluno : alunosCadatrados){
+                        System.out.println(listaAluno.getNome());
+                    }
+                    break;
+                case 5: // Listar turmas cadastradas
+                    System.out.println(turmasCadastradas.toString());
+                    break;
+                case 6: // Listar alunos matriculados em uma turma
+                    break;
             }
+
             System.out.println();
-            System.out.println("1 - Cadastrar Turma");
-            System.out.println("2 - Cadastrar Aluno");
-            System.out.println("3 - ");
-            System.out.println("0 - Sair");
-            opcao = entrada.nextInt();
+            opcao = menu.MenuDeOpcoes();
         }
-        entrada.close();
+        System.out.println("Finalizando programa...");
+        scan.close();
+        System.exit(0);
     }
 }

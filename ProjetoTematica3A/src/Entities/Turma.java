@@ -2,6 +2,8 @@ package Entities;
 
 import Helpers.Etapas;
 
+import java.util.List;
+
 public class Turma {
     public String CodigoDaTurma;
     public String Etapa;
@@ -57,14 +59,12 @@ public class Turma {
         Matriculados = matriculados;
     }
 
-//    public void listarTurmas() {
-//        for (Turma turma : ) {
-//            System.out.println("Código da Turma: " + turma.getCodigoDaTurma());
-//            System.out.println("Etapa: " + turma.getEtapa());
-//            System.out.println("Ano: " + turma.getAno());
-//            System.out.println("Limite de Vagas: " + turma.getLimiteDeVagas());
-//            System.out.println("Matriculados: " + turma.getMatriculados());
-//            System.out.println();
-//        }
-//    }
+    @Override
+    public String toString() {
+        return '\n' + "CodigoDaTurma = '" + CodigoDaTurma + '\n' +
+               "Etapa = " + Etapa + '\n' +
+               "Ano = " + Ano + '\n' +
+               "LimiteDeVagas = " + LimiteDeVagas + '\n' +
+               "Matriculados = " + Matriculados + '\n';
+    }
 }

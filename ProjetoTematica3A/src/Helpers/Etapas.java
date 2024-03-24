@@ -2,7 +2,7 @@ package Helpers;
 
 public enum Etapas {
     Infantil,
-    FundamentalInicial,
-    FundamentalFinal,
+    Fundamental_Inicial,
+    Fundamental_Final,
     Medio;
 }
