@@ -61,7 +61,7 @@ public class Turma {
 
     @Override
     public String toString() {
-        return '\n' + "CodigoDaTurma = '" + CodigoDaTurma + '\n' +
+        return '\n' + "CodigoDaTurma = " + CodigoDaTurma + '\n' +
                "Etapa = " + Etapa + '\n' +
                "Ano = " + Ano + '\n' +
                "LimiteDeVagas = " + LimiteDeVagas + '\n' +

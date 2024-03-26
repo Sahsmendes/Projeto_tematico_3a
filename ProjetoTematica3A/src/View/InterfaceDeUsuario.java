@@ -4,10 +4,6 @@ import Entities.Aluno;
 import Entities.Turma;
 import Helpers.*;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class InterfaceDeUsuario {
@@ -31,12 +27,12 @@ public class InterfaceDeUsuario {
 
                     int tipo = etapa.Etapas();
 
-                    while (tipo < 0 || tipo > 4){
+                    while (tipo <= 0 || tipo > 4){
                         System.out.println("Valor inválido, favor digitar o valor correto");
                         System.out.println();
                         tipo =  etapa.Etapas();
                     }
-                    Etapas etapas = Etapas.values()[tipo];
+                    Etapas etapas = Etapas.values()[tipo-1];
                     String nomeEtapa = etapas.name();
 
                     System.out.println("Ano");
@@ -63,11 +59,11 @@ public class InterfaceDeUsuario {
                     System.out.println("Endereço do Aluno:");
                     String endereco = scan.next();
 
-                    System.out.println("Data de Nascimento do Aluno: Formato(DD/MM/AAAA)");
+                    System.out.println("Data de Nascimento do Aluno: Formato(AAAA-MM-DD)");
                     String nascimento = scan.next();
                     int idade = obterIdade.ObterIdade(nascimento);
 
-                    Aluno aluno = new Aluno(nome, cpf, endereco, nascimento, idade);
+                    Aluno aluno = new Aluno(nome, cpf, endereco, "25/03/2014", 10);
                     alunosCadatrados.add(aluno);
 
                     System.out.println("Aluno cadastrado com sucesso!");
@@ -77,7 +73,7 @@ public class InterfaceDeUsuario {
                 case 4: // Listar alunos em ordem alfabética
                     Collections.sort(alunosCadatrados, Comparator.comparing(Aluno::getNome));
                     for (Aluno listaAluno : alunosCadatrados){
-                        System.out.println(listaAluno.getNome());
+                        System.out.println(listaAluno.toString());
                     }
                     break;
                 case 5: // Listar turmas cadastradas

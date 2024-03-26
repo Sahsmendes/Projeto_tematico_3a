@@ -67,7 +67,7 @@ public class Aluno{
     @Override
     public String toString() {
         return "Aluno{" +
-               "Nome='" + Nome + '\'' +
+               "Nome=" + Nome + '\'' +
                ", Idade=" + Idade + ";" + '\n';
     }
 }
