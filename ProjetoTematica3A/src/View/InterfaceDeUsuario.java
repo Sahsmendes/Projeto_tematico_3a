@@ -23,21 +23,20 @@ public class InterfaceDeUsuario {
                 case 1: // Cadastro de turma
                     turma.cadastraTurma();
                     break;
-                case 2: // Cadastro de Aluno
-                    aluno.cadastraAluno();
-                    break;
-                case 3: // Cadastrar aluno em uma turma
-                    lista.menuListaAlunos();
-                    break;
-                case 4: // Listar alunos em ordem alfabética
-                    System.out.println("Lista de alunos:");
-                    aluno.listaAlunos();
-                    break;
-                case 5: // Listar turmas cadastradas
+                case 2: // Listar turmas cadastradas
                     System.out.println("Lista de turmas:");
                     System.out.println(turma.turmasCadastradas.toString());
                     break;
-                case 6: // Listar alunos matriculados em uma turma
+                case 3: // Cadastro de alunos
+                    lista.menuListaAlunos();
+                    break;
+                case 4: // Cadastro de alunos em uma turma
+                    lista.menuListaAlunos();
+                    break;
+                case 5: // Listar alunos em ordem alfábetica
+                    aluno.exibirLista();
+                    break;
+                case 6: // Mostrar alunos cadastrados em uma turmas e fora da etapa
                     break;
             }
 

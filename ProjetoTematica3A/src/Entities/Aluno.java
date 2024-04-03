@@ -14,22 +14,23 @@ public class Aluno {
     public LocalDate DataDeNascimento;
     public int Idade;
     public String CodigoTurma;
-    static Scanner scan = new Scanner(System.in);
     public ArrayList<Aluno> alunosCadatrados = new ArrayList<Aluno>();
 
-    public Aluno(String nome, String CPF, String endereco, LocalDate dataDeNascimento, int idade) {
+    public Aluno(String nome, String CPF, String endereco, LocalDate dataDeNascimento) {
         Nome = nome;
         this.CPF = CPF;
         Endereco = endereco;
         DataDeNascimento = dataDeNascimento;
-        Idade = idade;
+        Idade = ObterIdade(dataDeNascimento);
     }
 
     public Aluno() {
         // sobrecarga
     }
 
-    public void cadastraAluno() {
+    public Aluno cadastraAluno() {
+
+        Scanner scan = new Scanner(System.in);
 
         System.out.println("Nome do Aluno:");
         String nome = scan.nextLine();
@@ -43,22 +44,21 @@ public class Aluno {
         System.out.println("Data de Nascimento do Aluno: Formato(AAAA-MM-DD)");
         LocalDate nascimento = LocalDate.parse(scan.nextLine());
 
-        Aluno aluno = new Aluno(nome, cpf, endereco, nascimento, ObterIdade(nascimento));
+        Aluno aluno = new Aluno(nome, cpf, endereco, nascimento);
         alunosCadatrados.add(aluno);
-
-        System.out.println("Aluno cadastrado com sucesso!");
-    }
-
-    public void listaAlunos() {
-        Collections.sort(alunosCadatrados, Comparator.comparing(Aluno::getNome));
-        for (Aluno listaAluno : alunosCadatrados) {
-            System.out.println(listaAluno.toString());
-        }
+        return aluno;
     }
 
     public int ObterIdade(LocalDate dataNascimento) {
         LocalDate hoje = LocalDate.now();
         return Period.between(dataNascimento, hoje).getYears();
+    }
+
+    public void exibirLista() {
+        Collections.sort(alunosCadatrados, Comparator.comparing(Aluno::getNome));
+        for (Aluno listaAluno : alunosCadatrados) {
+            System.out.println(listaAluno.toString());
+        }
     }
 
     public String getNome() {
@@ -99,10 +99,6 @@ public class Aluno {
 
     public void setCodigoTurma(String codigoTurma) {
         CodigoTurma = codigoTurma;
-    }
-
-    public int getIdade() {
-        return Idade;
     }
 
     public void setIdade(int idade) {
