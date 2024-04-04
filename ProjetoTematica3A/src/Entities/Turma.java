@@ -30,31 +30,32 @@ public class Turma {
     public void cadastraTurma() {
         while (true) {
             try {
-                System.out.println("Código da turma:");
-                int codigo = Integer.parseInt(scan.nextLine());
                 boolean opcao = false;
                 String nomeEtapa = null;
                 int ano;
 
+                System.out.println("Código da turma:");
+                int codigo = Integer.parseInt(scan.nextLine());
+
                 do {
                     System.out.println("Selecione a etapa da turma: ");
                     System.out.println("1- Infantil \n2- Fundamental Inicial \n3- Fundamental Final \n4- Ensino Médio");
-                    String etapa = scan.nextLine();
+                    int etapa = Integer.parseInt(scan.nextLine());
                     switch (etapa) {
-                        case "1":
+                        case 1:
                             nomeEtapa = "Infantil";
                             opcao = true;
                             break;
-                        case "2":
+                        case 2:
                             nomeEtapa = "Fundamental Inicial";
                             opcao = true;
                             break;
-                        case "3":
+                        case 3:
                             nomeEtapa = "Fundamental Final";
                             opcao = true;
                             break;
-                        case "4":
-                            nomeEtapa = "Ensino médio";
+                        case 4:
+                            nomeEtapa = "Ensino Médio";
                             opcao = true;
                             break;
                         default:
@@ -94,7 +95,6 @@ public class Turma {
 
     public void adicionarAluno(Aluno aluno) {
         alunosMatriculados.add(aluno);
-
     }
 
     public ArrayList<Aluno> getAlunosMatriculados() {
@@ -141,6 +141,42 @@ public class Turma {
     public void setMatriculados(int matriculados) {
         Matriculados = matriculados;
     }
+
+	public Turma procuraTurma (int codTurma) {
+		for (Turma turma : turmasCadastradas) {
+			if (turma.getCodigoDaTurma() == codTurma) {
+				return turma;
+			} 
+		}	
+		System.out.println("Turma não encontrada");
+		return null;
+	}
+
+    public void mostrarPossiveisTurmas() {
+        for (Turma turma : turmasCadastradas
+            // .stream().filter(x -> x.alunoNaFaixa(idade)).toArray(Turma[]::new)
+        ) {
+            System.out.println(turma);   
+        }
+    }
+
+	public static void adicionaAlunoTurmaComeco(Aluno aluno, Turma turma) {
+		if (turma.LimiteDeVagas > turma.Matriculados) {
+		turma.getAlunosMatriculados().add(0, aluno);
+		turma.setMatriculados(turma.getMatriculados() + 1);
+		} else {
+			System.out.println("Turma cheia!");
+		}
+	}
+
+	public static void adicionarAlunoTurmaFinal(Aluno aluno, Turma turma) {
+		if (turma.LimiteDeVagas > turma.Matriculados) {
+			turma.getAlunosMatriculados().add(aluno);
+			turma.setMatriculados(turma.getMatriculados() - 1);
+		} else {
+			System.out.println("Turma cheia!");
+		}
+	}
 
     @Override
     public String toString() {

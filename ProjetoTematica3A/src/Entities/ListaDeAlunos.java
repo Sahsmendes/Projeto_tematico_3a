@@ -1,10 +1,90 @@
 package Entities;
 
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Scanner;
-
 public class ListaDeAlunos {
+    ListaEncadeada listaEncadeada = new ListaEncadeada();
+    LinkedList<Aluno> listaOrdenada = new LinkedList<Aluno>();
+
+    public void menuListaAlunos() {
+        boolean opcao = false;
+
+        Scanner scan = new Scanner(System.in);
+
+        do {            
+            System.out.println("O que você deseja? ");
+            System.out.println("1- Incluir aluno no início da lista\n" +
+                               "2- Incluir aluno no final da lista\n" +
+                               "3- Ordenar alunos\n" +
+                               "4- Remover aluno do final da lista\n" +
+                               "5- Quantidade de alunos da lista\n" +
+                               "6- Aluno por posição");
+            int escolha = Integer.parseInt(scan.nextLine());
+
+            switch (escolha) {
+                case 1:
+                    Aluno newAluno = Aluno.cadastraAluno();
+                    listaEncadeada.incluirNoInicio(newAluno);
+                    System.out.println("Aluno inserido com sucesso no início da lista");
+                    // Turma adicionaNaTurma(inicio);
+                    opcao = true;
+                    break;
+                case 2:
+                    newAluno = Aluno.cadastraAluno();
+                    listaEncadeada.incluirNoFIm(newAluno);
+                    System.out.println("Aluno inserido com sucesso no final da lista");
+                    opcao = true;
+                    break;
+                case 3:
+                    listaEncadeada.ordenar();
+                    opcao = true;
+                    break;
+                case 4:
+                    Aluno removido = listaEncadeada.removerDoFim();
+                    System.out.println(removido);
+                    opcao = true;
+                    break;
+                case 5:
+                    int tamanho = listaEncadeada.tamanho();
+                    System.out.println("Tamanho total da lista: " + tamanho);
+                    opcao = true;
+                    break;
+                case 6:
+                    System.out.println("Informe a posição que deseja:");
+                    int index = Integer.parseInt(scan.nextLine());
+                    Aluno posicaoAluno = listaEncadeada.get(index);
+
+                    if (posicaoAluno != null) {
+                        System.out.println("Aluno na posição solitada");
+                        System.out.println(posicaoAluno);
+                    }
+                    
+                    opcao = true;
+                    break;
+                default:
+                    break;
+            }
+
+        } while (!opcao);
+
+    }
+
+    public void menuMatricularAluno(Turma turma) {
+        boolean opcao = false;
+
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Informe o código da Turma");
+        turma.mostrarPossiveisTurmas();
+        int turmaEscolhida = Integer.parseInt(scan.nextLine());
+        System.out.println();
+        System.out.println("Informe o nome do aluno");
+        String alunoEscolhido = scan.nextLine();
+        
+        Turma turmaEncontrada = turma.procuraTurma(turmaEscolhida);
+        Aluno alunoEncontrado = listaEncadeada.getPorNome(alunoEscolhido);
+
+        Turma.adicionarAlunoTurmaFinal(alunoEncontrado, turmaEncontrada);
+    }
 
     class Node {
         Aluno aluno;
@@ -16,67 +96,7 @@ public class ListaDeAlunos {
         }
     }
 
-    Scanner scan = new Scanner(System.in);
-    ListaEncadeada listaEncadeada = new ListaEncadeada();
-    LinkedList<Aluno> listaOrdenada = new LinkedList<Aluno>();
-    Aluno aluno = new Aluno();
-    Aluno newAluno = new Aluno();
-
-    public void menuListaAlunos() {
-        boolean opcao = false;
-        String cpf = null;
-        int codigoTurma = 0;
-
-        do {
-            System.out.println("O que você deseja? ");
-            System.out.println("1- Incluir aluno no início da turma\n" +
-                    "2- Incluir aluno no final da turma\n" +
-                    "3- Ordenar alunos\n" +
-                    "4- Remover aluno do final da lista\n" +
-                    "5- Quantidade de alunos da lista\n" +
-                    "6- Aluno por posição");
-            int escolha = Integer.parseInt(scan.nextLine());
-
-            switch (escolha) {
-                case 1:
-                    newAluno = aluno.cadastraAluno();
-                    listaEncadeada.incluirNoInicio(newAluno);
-                    System.out.println("Aluno inserido com sucesso no início da lista");
-                    opcao = true;
-                    break;
-                case 2:
-                    newAluno = aluno.cadastraAluno();
-                    listaEncadeada.incluirNoFIm(newAluno);
-                    System.out.println("Aluno inserido com sucesso no final da lista");
-                    opcao = true;
-                    break;
-                case 3:
-                    listaEncadeada.Ordenar();
-                    opcao = true;
-                    break;
-                case 4:
-                    Aluno removido = listaEncadeada.removerDoFim();
-                    System.out.println(removido);
-                    opcao = true;
-                    break;
-                case 5:
-                    listaEncadeada.tamanho();
-                    opcao = true;
-                    break;
-                case 6:
-                    System.out.println("Informe a posição que deseja:");
-                    int index = Integer.parseInt(scan.nextLine());
-                    listaEncadeada.get(index);
-                    opcao = true;
-                    break;
-                default:
-                    break;
-            }
-
-        } while (!opcao);
-    }
-
-    private class ListaEncadeada {
+    public class ListaEncadeada {
         ListaDeAlunos.Node head;
 
         public void incluirNoInicio(Aluno aluno) {
@@ -99,9 +119,10 @@ public class ListaDeAlunos {
             }
         }
 
-        public void Ordenar() {
+        public void ordenar() {
             // Se a lista estiver vazia ou tiver apenas um elemento, já está ordenada
             if (head == null || head.next == null) {
+                printList(head);
                 return;
             }
 
@@ -134,6 +155,23 @@ public class ListaDeAlunos {
             // Atualiza a cabeça da lista para a nova lista ordenada
             head = novaLista;
 
+            printList(novaLista);
+        }
+
+        public void printList(Node list)
+        {
+            Node current = list;
+
+            System.out.println("Lista Ordenada de Alunos");
+            int i = 1;
+            while (current != null) {
+                System.out.print(i);
+                System.out.print(" ");
+                System.out.println(current.aluno);
+
+                i++;
+                current = current.next;
+            }
         }
 
         public Aluno removerDoFim() {
@@ -193,6 +231,27 @@ public class ListaDeAlunos {
 
             // Se a posição for maior que o tamanho da lista, retorna null
             System.out.println("Posição informada é maior que o tamanho da lista");
+            return null;
+        }
+
+        public Aluno getPorNome(String nome) {
+            if (head == null) {
+                System.out.println("A lista não contêm nenhum aluno!");
+                return null;
+            }
+
+            Node atual = head;
+
+            // Percorre a lista até encontrar o nó na posição desejada
+            while (atual != null) {
+                if (atual.aluno.Nome.equals(nome)) {
+                    return atual.aluno;
+                }
+                atual = atual.next;
+            }
+
+            // Se a posição for maior que o tamanho da lista, retorna null
+            System.out.println("Aluno não encontrado");
             return null;
         }
     }

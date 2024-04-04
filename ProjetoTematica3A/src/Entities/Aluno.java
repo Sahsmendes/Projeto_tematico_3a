@@ -2,9 +2,6 @@ package Entities;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
 public class Aluno {
@@ -14,7 +11,6 @@ public class Aluno {
     public LocalDate DataDeNascimento;
     public int Idade;
     public String CodigoTurma;
-    public ArrayList<Aluno> alunosCadatrados = new ArrayList<Aluno>();
 
     public Aluno(String nome, String CPF, String endereco, LocalDate dataDeNascimento) {
         Nome = nome;
@@ -28,7 +24,7 @@ public class Aluno {
         // sobrecarga
     }
 
-    public Aluno cadastraAluno() {
+    public static Aluno cadastraAluno() {
 
         Scanner scan = new Scanner(System.in);
 
@@ -45,7 +41,6 @@ public class Aluno {
         LocalDate nascimento = LocalDate.parse(scan.nextLine());
 
         Aluno aluno = new Aluno(nome, cpf, endereco, nascimento);
-        alunosCadatrados.add(aluno);
         return aluno;
     }
 
@@ -54,12 +49,6 @@ public class Aluno {
         return Period.between(dataNascimento, hoje).getYears();
     }
 
-    public void exibirLista() {
-        Collections.sort(alunosCadatrados, Comparator.comparing(Aluno::getNome));
-        for (Aluno listaAluno : alunosCadatrados) {
-            System.out.println(listaAluno.toString());
-        }
-    }
 
     public String getNome() {
         return Nome;
